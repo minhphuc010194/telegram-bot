@@ -12,7 +12,7 @@ const app = express();
 app.use(bodyParser.json());
 
 const sentMessages = async () => {
-   const chatId = 1138578258;
+   const chatId = process.env.CHAT_ID;
    await axios.post(`${TELEGRAM_API}/sendMessage`, {
       chat_id: chatId,
       text: "Hi! I'm bot",
@@ -20,6 +20,7 @@ const sentMessages = async () => {
    return res.send();
 };
 const init = async () => {
+   //test auto sent when run
    sentMessages();
    const res = await axios.get(`${TELEGRAM_API}/setWebhook?url=${WEBHOOK_URL}`);
    //    console.log(res.data);
