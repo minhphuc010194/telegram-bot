@@ -12,29 +12,30 @@ const app = express();
 app.use(bodyParser.json());
 
 const sentMessages = async () => {
-   const chatId = process.env.CHAT_ID;
+   const chatId = process.env.CHAT_GROUP_TIPRECA;
    await axios.post(`${TELEGRAM_API}/sendMessage`, {
       chat_id: chatId,
-      text: "Hi! I'm bot",
+      text: "Hi! I'm bot, welcom to new connect!🚀",
    });
-   return res.send();
+   // console.log(res);
+   // return res.send();
 };
 const init = async () => {
    //test auto sent when run
    sentMessages();
    const res = await axios.get(`${TELEGRAM_API}/setWebhook?url=${WEBHOOK_URL}`);
-   //    console.log(res.data);
 };
-// app.post(URI, async (req, res) => {
-//    //    console.log(req.body);
-//    const chatId = req.body.message.chat.id,
-//       text = req.body.message.text;
-//    await axios.post(`${TELEGRAM_API}/sendMessage`, {
-//       chat_id: chatId,
-//       text: text,
-//    });
-//    return res.send();
-// });
+app.post(URI, async (req, res) => {
+   //    console.log(req.body);
+   const chatId = req.body.message.chat.id,
+      text = req.body.message.text;
+   console.log(chatId); //include group chat id
+   await axios.post(`${TELEGRAM_API}/sendMessage`, {
+      chat_id: chatId,
+      text: text,
+   });
+   return res.send();
+});
 
 app.listen(process.env.PORT || PORT, async () => {
    console.log("🚀 app running on port", process.env.PORT || PORT);
